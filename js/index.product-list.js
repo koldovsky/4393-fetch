@@ -1,39 +1,18 @@
-const stickers = [
-    {
-        id: 1,
-        name: "Baby Yoda",
-        price: 5.99,
-        image: "img/baby-yoda.svg",
-        description: "The cutest character from The Mandalorian series. Perfect for Star Wars fans, this sticker adds a touch of adorable wisdom to your laptop, notebook, or water bottle.",
-    },
-    {
-        id: 2,
-        name: "Banana",
-        price: 3.49,
-        image: "img/banana.svg",
-        description: "A fun and quirky banana sticker for fruit lovers. Brighten up your belongings with this playful design that brings a smile wherever you stick it.",
-    },
-    {
-        id: 3,
-        name: "Viking",
-        price: 6.25,
-        image: "img/viking.svg",
-        description: "A fierce viking sticker for adventurous spirits. Show off your bold side with this detailed illustration, ideal for travel gear, notebooks, or phone cases.",
-    },
-    {
-        id: 4,
-        name: "Girl",
-        price: 4.75,
-        image: "img/girl.svg",
-        description: "A cheerful girl sticker to brighten up your day. This vibrant and positive design is great for personalizing your workspace, planner, or favorite accessories.",
-    },
-];
+// fetch("api/products.json")
+//   .then((response) => response.json())
+//   .then((stickers) => renderProductList(stickers));
 
-function renderProductList(products) {
-    const productsHtml = [];
-    for (const product of products) {
-        productsHtml.push(`<article class="products__item">
-            <img class="products__image" src="${product.image}" alt="${product.name}">
+const response = await fetch("api/products.json");
+const stickers = await response.json();
+renderProductList(stickers);
+
+function renderProductList(products, rate = 1, currency = "USD") {
+  const productsHtml = [];
+  for (const product of products) {
+    productsHtml.push(`<article class="products__item">
+            <img class="products__image" src="${product.image}" alt="${
+      product.name
+    }">
             <h3 class="products__name">${product.name}</h3>
             <p class="products__description">${product.description}</p>
             <div class="products__actions">
@@ -41,13 +20,25 @@ function renderProductList(products) {
                     Info
                 </button>
                 <button class="products__button products__button--buy button button-card">
-                    Buy for $${product.price.toFixed(2)}
+                    Buy for ${(product.price * rate).toFixed(2)} ${currency}
                 </button>
             </div>
         </article>`);
-    }
-    const productListContainer = document.querySelector(".products__list");
-    productListContainer.innerHTML = productsHtml.join("");
+  }
+  const productListContainer = document.querySelector(".products__list");
+  productListContainer.innerHTML = productsHtml.join("");
 }
 
-renderProductList(stickers);
+
+document.querySelector('.products__currency').addEventListener('change', changeCurrency);
+
+let allCurrencies;
+async function changeCurrency() {
+  const convertToCurrency = document.querySelector('.products__currency').value;
+  if (!allCurrencies) {
+    const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+    allCurrencies = await response.json();
+  }
+  const rate = allCurrencies.rates[convertToCurrency];
+  renderProductList(stickers, rate, convertToCurrency);
+}
