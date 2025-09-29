@@ -1,0 +1,53 @@
+/* Simple chat styles that fit the existing site look */
+.chat {
+  margin-top: 2rem;
+}
+.chat__title {
+  margin-bottom: 0.5rem;
+}
+.chat__messages {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.75rem;
+  height: 240px;
+  overflow-y: auto;
+  background: #fff;
+  margin-bottom: 0.75rem;
+}
+.chat__message {
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+.chat__user {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+.chat__time {
+  color: #888;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
+.chat__text {
+  margin-top: 0.25rem;
+}
+.chat__form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.chat__input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+}
+.chat__input--username {
+  width: 120px;
+}
+.chat__input--message {
+  flex: 1 1 auto;
+}
+.chat__send {
+  white-space: nowrap;
+}

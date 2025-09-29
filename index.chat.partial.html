@@ -1,0 +1,44 @@
+<section id="chat" class="chat container">
+  <h2 class="chat__title">Live Chat</h2>
+
+  <!-- messages container is polled every 3 seconds -->
+  <div
+    id="chat-messages"
+    class="chat__messages"
+    data-hx-get="/api/chat/messages"
+    data-hx-trigger="load, every 3s"
+    data-hx-swap="outerHTML"
+  >
+    <!-- messages will be rendered here by the server -->
+  </div>
+
+  <!-- form posts new message and replaces messages container with server response -->
+  <form
+    id="chat-form"
+    class="chat__form"
+    action="/api/chat/send"
+    method="POST"
+    hx-post="/api/chat/send"
+    hx-target="#chat-messages"
+    hx-swap="outerHTML"
+  >
+    <input
+      type="text"
+      name="username"
+      class="chat__input chat__input--username"
+      placeholder="Your name"
+      maxlength="50"
+      required
+    />
+    <input
+      type="text"
+      name="message"
+      class="chat__input chat__input--message"
+      placeholder="Write a message..."
+      maxlength="500"
+      required
+      autocomplete="off"
+    />
+    <button type="submit" class="button chat__send">Send</button>
+  </form>
+</section>
